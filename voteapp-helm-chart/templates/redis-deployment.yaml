@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.redis.name }}
+  name: {{ .Values.redis.name }}
+spec:
+  replicas: {{ .Values.redis.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.redis.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.redis.name }}
+    spec:
+      containers:
+      - image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+        name: {{ .Values.redis.name }}
+        ports:
+        - containerPort: {{ .Values.redis.containerPort }}
+          name: {{ .Values.redis.name }}
+        volumeMounts:
+          {{- toYaml .Values.redis.volumeMounts | nindent 12 }}
+      volumes:
+        {{- toYaml .Values.redis.volumes | nindent 8 }}

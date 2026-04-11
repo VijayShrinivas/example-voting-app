@@ -1,0 +1,85 @@
+worker:
+  name: worker
+  replicaCount: 1
+  image:
+    repository: dockersamples/examplevotingapp_worker
+    tag: latest
+
+vote:
+  name: vote
+  replicaCount: 1
+  image:
+    repository: dockersamples/examplevotingapp_vote
+    tag: latest
+  containerPort: 80
+    
+  service:
+    name: vote-service
+    type: NodePort
+    port: 8080
+    targetPort: 80
+    nodePort: 31000
+
+db:
+  name: db
+  replicaCount: 1
+  image:
+    repository: postgres:15-alpine
+    tag: latest
+    name: postgres
+  containerPort: 5432
+  env:
+    - name: POSTGRES_USER
+      value: postgres
+    - name: POSTGRES_PASSWORD
+      value: postgres
+  volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: db-data
+  volumes:
+    - name: db-data
+      emptyDir: {}
+
+  service:
+    name: db-service
+    type: ClusterIP
+    port: 5432
+    targetPort: 5432
+    nodePort: 31000
+
+redis:
+  name: redis
+  replicaCount: 1
+  image:
+    repository: redis:alpine
+    tag: latest
+    name: redis
+  containerPort: 6479
+  volumeMounts:
+    - mountPath: /data
+      name: redis-data
+  volumes:
+    - name: redis-data
+      emptyDir: {}
+
+  service:
+    name: redis-service
+    type: ClusterIP
+    port: 6379
+    targetPort: 6379
+
+result:
+  name: result
+  replicaCount: 1
+  image:
+    repository: dockersamples/examplevotingapp_result
+    tag: latest
+    name: result
+  containerPort: 80
+
+  service:
+    name: result-service
+    type: NodePort
+    port: 8081
+    targetPort: 80
+    nodePort: 31001
