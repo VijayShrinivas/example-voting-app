@@ -24,8 +24,8 @@ db:
   name: db
   replicaCount: 1
   image:
-    repository: postgres:15-alpine
-    tag: latest
+    repository: postgres
+    tag: 15-alpine
     name: postgres
   containerPort: 5432
   env:
@@ -51,8 +51,8 @@ redis:
   name: redis
   replicaCount: 1
   image:
-    repository: redis:alpine
-    tag: latest
+    repository: redis
+    tag: alpine
     name: redis
   containerPort: 6479
   volumeMounts:
