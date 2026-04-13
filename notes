@@ -1,0 +1,9 @@
+helm create voteapp-helm-chart
+Remove all the files in voteapp-helm-chart/templates/
+Copy all the existing manifest inside templates folder
+Add values in values.yml file and add key in manifests inside templates/
+
+HELM COMMANDS:
+helm install test-release ./voteapp-helm-chart/ --dry-run --debug
+helm install test-release ./voteapp-helm-chart/ --debug
+kubectl get nodes -o wide
