@@ -16,8 +16,10 @@ kind: Service
 metadata:
   name: result-preview
 spec:
+  type: NodePort
   selector:
     app: result
   ports:
   - port: 80
     targetPort: 80
+    nodePort: 31002
